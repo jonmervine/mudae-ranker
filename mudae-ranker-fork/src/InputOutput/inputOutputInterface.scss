@@ -1,0 +1,17 @@
+.TextFields {
+  textarea {
+    resize: none;
+    width: 45%;
+    height: 10em;
+  }
+}
+
+.ButtonRow {
+  width: 90%;
+  display:flex;
+  justify-content: center;
+
+  Button {
+    margin: 1em 0.3em 1em 0em;
+  }
+}

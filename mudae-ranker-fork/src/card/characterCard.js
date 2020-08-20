@@ -1,8 +1,9 @@
 import React from 'react';
 import './characterCard.scss';
 
-function CharacterCard({cardData}) {
-    const {name, series, pictureUrl} = cardData;
+function CharacterCard({card}) {
+    const {name, series, pictureUrl} = card;
+    console.log(card);
     return (
         <div className={"CharacterCard"}>
             <div className={"CardHeader"}>

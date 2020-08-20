@@ -61,3 +61,15 @@
     }
   }
 }
+
+.CardPanel {
+  display:flex;
+}
+
+.AddCard {
+  width: 10%;
+  height: 0;
+  padding-bottom: 10%;
+  display: inline-block;
+  background-color: cornflowerblue;
+}
