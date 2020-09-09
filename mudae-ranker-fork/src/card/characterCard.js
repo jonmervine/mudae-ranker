@@ -1,5 +1,8 @@
 import React from 'react';
 import './characterCard.scss';
+import {FaRegTrashAlt} from 'react-icons/fa';
+import {GrClose} from 'react-icons/gr';
+
 
 function CharacterCard({card}) {
     const {name, series, pictureUrl} = card;
@@ -8,7 +11,9 @@ function CharacterCard({card}) {
         <div className={"CharacterCard"}>
             <div className={"CardHeader"}>
                 <div className={"Name"}>{name}</div>
-                <div className={"Close"} title={"Close Card"}>X</div>
+                <div className={"Close"} title={"Close Card"}>
+                    <GrClose />
+                </div>
             </div>
             <div className={"Series"}>{series}</div>
             <img className={"Picture"} alt={""} src={pictureUrl}/>
@@ -21,7 +26,9 @@ function CharacterCard({card}) {
                     <input type={"checkbox"}/>
                     <label>Skip?</label>
                 </div>
-                <div className={"Delete"} title={"Delete Character"}>D</div>
+                <div className={"Delete"} title={"Delete Character"}>
+                    <FaRegTrashAlt />
+                </div>
             </div>
         </div>
     );
