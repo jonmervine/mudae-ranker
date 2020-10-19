@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
+import './App.css';
 import CardPanel from './card/cardPanel.js';
 import InputOutputInterface from "./InputOutput/inputOutputInterface";
 
-function Main() {
+function App() {
     const [cardList, setCardList] = useState([
         {
             key: 0,
@@ -25,11 +26,19 @@ function Main() {
     }
 
     return (
-        <div>
+        <div className={"App"}>
             <InputOutputInterface updateCardList={updateCardList}/>
             <CardPanel cardList={cardList}/>
         </div>
     );
 }
 
-export default Main;
+export default App;
+
+/*
+const App = () => (
+    <div className="App">
+        <h1>Hello, World!</h1>
+    </div>
+)
+ */
