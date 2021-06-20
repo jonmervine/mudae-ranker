@@ -2,18 +2,19 @@ import React, {useState} from 'react';
 import './App.css';
 import CardPanel from './card/cardPanel.js';
 import InputOutputInterface from "./InputOutput/inputOutputInterface";
+import { v4 as uuidv4 } from 'uuid';
 
 function App() {
-    const [cardList, setCardList] = useState([
+    const [characterList, setCharacterList] = useState([
         {
-            key: 0,
+            key: uuidv4(),
             name: "Atsuko Kagari",
             series: "Little Witch Academia",
             pictureUrl: "https://imgur.com/Vk3jbUB.png",
             skip: false
         },
         {
-            key: 1,
+            key: uuidv4(),
             name: "Aoi Kiriya",
             series: "Aikatsu",
             pictureUrl: "https://media.discordapp.net/attachments/472313197836107780/553762506217226250/SNVvtNb.png",
@@ -21,24 +22,16 @@ function App() {
         }
     ]);
 
-    function updateCardList(cards) {
-        setCardList(cards);
+    function updateCharacterList(cards) {
+        setCharacterList(cards);
     }
 
     return (
         <div className={"App"}>
-            <InputOutputInterface updateCardList={updateCardList}/>
-            <CardPanel cardList={cardList}/>
+            <InputOutputInterface updateCharacterList={updateCharacterList}/>
+            <CardPanel characterList={characterList} updateCharacterList={updateCharacterList}/>
         </div>
     );
 }
 
 export default App;
-
-/*
-const App = () => (
-    <div className="App">
-        <h1>Hello, World!</h1>
-    </div>
-)
- */

@@ -1,8 +1,23 @@
 import React, {useState} from 'react';
 import './inputOutputInterface.scss';
+import { v4 as uuidv4 } from 'uuid';
 
-function InputOutputInterface({updateCardList}) {
+function InputOutputInterface({updateCharacterList}) {
     const [inputText, setInputText] = useState("");
+    const [outputText, setOutputText] = useState("");
+
+    function cleanOutput() {
+        setOutputText("")
+    }
+
+    function reset() {
+        // TODO Change to library or custom implementation. window.confirm is a blocking modal
+        if (window.confirm("Clear everything?")) {
+            setOutputText("")
+            setInputText("")
+            updateCharacterList([])
+        }
+    }
 
     function parseInput() {
         console.log("starting parsing of input text");
@@ -18,7 +33,6 @@ Ursula Callistis - https://media.discordapp.net/attachments/472313197836107780/6
 Chariot du Nord - https://media.discordapp.net/attachments/472313197836107780/700143528558329886/6nAYV8v.png
 Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/533081842014748672/yqhc3xM.png
          */
-        let uniqueKey = 0;
         let processingText = inputText;
         console.log("start processing text is: " + processingText);
 
@@ -56,11 +70,13 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
 
                 if (imageURLIndex > 0) {
                     characterImage = characterData.substring(imageURLIndex + 3).trim();
-                    console.log("Character Image: " + characterImage);
+                    console.log("Card Image: " + characterImage);
                 }
 
                 const characterName = originalName.replace(/(?: \([A-Z]+\))?/gi, '').trim();
-                console.log("Character Name: " + characterName);
+                console.log("Card Name: " + characterName);
+
+                let uniqueKey = uuidv4()
 
                 let character = {
                     key: uniqueKey,
@@ -69,30 +85,21 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
                     pictureUrl: characterImage,
                     skip: false
                 };
-                uniqueKey++;
 
-                console.log("Adding Character: " + character);
+                console.log("Adding Card: " + character);
 
                 seriesArray.push(character);
             }
         }
 
-
-        // let newCard = [{
-        //     key: 0,
-        //     name: "Kunou",
-        //     series: "Highschool DxD",
-        //     pictureUrl: "https://media.discordapp.net/attachments/472313197836107780/745455790751744090/MQL0D48.png",
-        //     skip: false
-        // }]
-        updateCardList(seriesArray);
+        updateCharacterList(seriesArray);
     }
 
     return (
         <div>
             <div className={"TextFields"}>
                 <textarea value={inputText} onChange={event => setInputText(event.target.value)}/>
-                <textarea></textarea>
+                <textarea value={outputText} readOnly={true}/>
             </div>
             <div className={"ButtonRow"}>
                 <button onClick={parseInput}>Parse Input</button>
@@ -100,8 +107,8 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
                 <button>Resume Ranking</button>
                 <button>Export All Characters</button>
                 <button>Generate Sort Commands</button>
-                <button>Clean Output</button>
-                <button>Reset</button>
+                <button onClick={cleanOutput}>Clean Output</button>
+                <button onClick={reset}>Reset</button>
             </div>
         </div>
     );

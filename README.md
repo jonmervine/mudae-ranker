@@ -33,18 +33,18 @@ This will walk you through importing your first batch of characters, sorting the
 4. Click **Parse Input**
    - At this point, you should see a bunch of thumbnails pop up
    - If you accidentally ran $mmas instead of $mmai-s, or if an image is not available for a character for some reason, the image should load afterward after being looked up from [Anilist](https://anilist.co/), see the **Anilist** section below for some details related to character lookups.
-5. Once the images are finished showing up, you can click on any thumbnail to view the full card for that character. See the **Character Card** section below for details on what is available on the card.
+5. Once the images are finished showing up, you can click on any thumbnail to view the full card for that character. See the **Card Card** section below for details on what is available on the card.
    - You can also drag individual characters around to resort them manually
 6. At any point, you can click **Export All Characters** to export a dump of the characters that can be re-imported later. This is highly recommended as it will save all of the image paths for each character, meaning the next time you import, it will not have to look the characters up from Anilist and will be much faster. I recommend saving the dump to a text file with Unicode encoding.
 7. When you're ready, click **Start Ranking**.
 8. The ranking pop up will show you two characters. Click on the one that you prefer.
-   - Note that you can also click the "Skip" button for a character, this will remove the character from the ranking process and throw them at the end of the list. If you want to bring them back, you will have to stop ranking and turn skip back off for them (see **Character Card**)
+   - Note that you can also click the "Skip" button for a character, this will remove the character from the ranking process and throw them at the end of the list. If you want to bring them back, you will have to stop ranking and turn skip back off for them (see **Card Card**)
    - To stop ranking midway, simply click the ❎ in the popup. The **Resume Ranking** button will enable, allowing you to pick back up from where you left off (see **Important Notes** below).
 9. After you have ranked all characters, the popup will go away and your harem should now be sorted based on your preferences.
    - It's highly recommended that you click **Export All Characters** at this point so you can import them in the same order they're in now that you've sorted them.
 10. Now you can click **Generate Sort Commands** and the list of commands you need to run to sort your harem on Discord will be shown.
 
-## Character Card
+## Card Card
 Full character cards have the following information and controls:
 - Information
   - The character's name as shown in Mudae

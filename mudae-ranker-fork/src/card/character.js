@@ -1,20 +1,26 @@
 import React from 'react';
-import './characterCard.scss';
+import './character.scss';
 import {FaRegTrashAlt} from 'react-icons/fa';
 import {GrClose} from 'react-icons/gr';
 
+function Character({character, index, handleClose, handleRemoval}) {
+    const {name, series, pictureUrl, skip} = character;
 
-function CharacterCard({card}) {
-    const {name, series, pictureUrl, skip} = card;
-    // const [skip, setSkip] = useState(false);
+    function closeDetails() {
+        handleClose()
+    }
 
-    console.log(card);
+    function trashcanRemove() {
+        handleRemoval(index)
+    }
+
+    console.log(character);
     return (
         <div className={"CharacterCard"}>
             <div className={"CardHeader"}>
                 <div className={"Name"}>{name}</div>
                 <div className={"Close"} title={"Close Card"}>
-                    <GrClose />
+                    <GrClose onClick={closeDetails}/>
                 </div>
             </div>
             <div className={"Series"}>{series}</div>
@@ -32,12 +38,12 @@ function CharacterCard({card}) {
                     />
                     <label>Skip</label>
                 </div>
-                <div className={"Delete"} title={"Delete Character"}>
-                    <FaRegTrashAlt />
+                <div className={"Delete"} title={"Delete Card"}>
+                    <FaRegTrashAlt onClick={trashcanRemove}/>
                 </div>
             </div>
         </div>
     );
 }
 
-export default CharacterCard;
+export default Character;

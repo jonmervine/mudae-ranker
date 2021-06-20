@@ -6,18 +6,19 @@
   border-width: 1px;
   box-shadow: 2px 2px 3px rgb(90, 90, 90);
   box-sizing: border-box;
-  width: 10%;
+  width: 25%;
   padding: 4px;
-  margin: 3px;
   display: flex;
   flex-direction: column;
   align-items: center;
   font-size: 100%;
+  position: relative;
+  margin: calc(100vh - 85vh - 20px) auto 0;
 
   .CardHeader {
     display: flex;
     justify-content: space-between;
-    width:100%;
+    width: 100%;
 
     .Name {
       font-weight: bold;
@@ -40,7 +41,7 @@
     border-radius: 6px;
   }
 
-  .URL input{
+  .URL input {
     margin-left: 0.5em;
     width: 75%;
   }
@@ -53,26 +54,11 @@
     .Skip input {
       cursor: pointer;
       margin-left: 1em;
-      margin-right:0.5em;
+      margin-right: 0.5em;
     }
 
     .Delete {
       cursor: pointer;
     }
   }
-}
-
-.CardPanel {
-  display:flex;
-  flex-wrap: wrap;
-}
-
-.AddCard {
-  width: 5%;
-  height: 5%;
-  background-color: white;
-  color: lightskyblue;
-  cursor:pointer;
-  padding: 4px;
-  margin: 3px;
 }
