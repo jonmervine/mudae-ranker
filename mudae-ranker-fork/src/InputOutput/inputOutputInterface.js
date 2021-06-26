@@ -21,6 +21,7 @@ function InputOutputInterface({updateCharacterList}) {
 
     function parseInput() {
         console.log("starting parsing of input text");
+        let initialIndex = 0
         /*
 Little Witch Academia - 9/15
 Diana Cavendish | B-Tier - https://media.discordapp.net/attachments/472313197836107780/532766260090372137/LoQi4zF.png
@@ -56,7 +57,7 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
         let initialSeriesArray = processingText.split('$').slice(1);
         console.log("split and splice processingText: " + initialSeriesArray);
 
-        let seriesArray = [];
+        let seriesMap = {};
 
         for (let seriesData of initialSeriesArray) {
             let series = seriesData.trim().split('\n');
@@ -79,20 +80,30 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
                 let uniqueKey = uuidv4()
 
                 let character = {
-                    key: uniqueKey,
                     name: characterName,
                     series: seriesName,
                     pictureUrl: characterImage,
-                    skip: false
+                    skip: false,
+                    position: initialIndex
                 };
+                initialIndex++
 
                 console.log("Adding Card: " + character);
 
-                seriesArray.push(character);
+                seriesMap[uniqueKey] = character;
             }
         }
 
-        updateCharacterList(seriesArray);
+        /*
+        So I think this is breaking when I parse and i believe whats happening is that we are  correctly parsing
+        and updating our characterList over in App, but the issue is the items and setItems for the array in App
+        need to be reset for the new parsed entries
+
+        one thought is to just append to the existing map and trigger with maybe a checkbox otherwise it just overwrites
+        and on overwrite i think you'll need to uhhh i don't really know? callback function of setItems is in App and is
+         passed down?
+         */
+        updateCharacterList(seriesMap);
     }
 
     return (
