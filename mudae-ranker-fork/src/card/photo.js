@@ -8,7 +8,7 @@ export const Photo = forwardRef(({character, index, style, ...props}, ref) => {
         height: 200,
         gridRowStart: null,
         gridColumnStart: null,
-        backgroundImage: `url("${character}")`,
+        backgroundImage: `url("${character.pictureUrl}")`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         backgroundColor: 'grey',

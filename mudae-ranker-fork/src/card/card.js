@@ -4,9 +4,9 @@ import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
 import {Photo} from './photo';
 
-function Card({characterKey, character, index, openDetails}) {
-    const {name, pictureUrl, skip} = character;
-    const sortable = useSortable({id: characterKey});
+function Card({character, index, openDetails}) {
+    const {key, name, pictureUrl, skip} = character;
+    const sortable = useSortable({id: character.id});
     const {
         attributes,
         listeners,
@@ -31,7 +31,6 @@ function Card({characterKey, character, index, openDetails}) {
             style={style}
             character={character}
             index={index}
-            characterkey={characterKey}
             {...attributes}
             {...listeners}
         />

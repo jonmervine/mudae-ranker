@@ -17,7 +17,7 @@ function AddNew({handleClose, newCard}) {
     }
 
     function addNewCharacter() {
-        console.log("Name is: " + name + " Series is: " + series)
+        // console.log("Name is: " + name + " Series is: " + series)
         let newCharacter = {
             name: name,
             series: series,

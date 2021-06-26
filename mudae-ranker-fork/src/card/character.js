@@ -14,7 +14,7 @@ function Character({character, index, handleClose, handleRemoval}) {
         handleRemoval(index)
     }
 
-    console.log(character);
+    // console.log(character);
     return (
         <div className={"CharacterCard"}>
             <div className={"CardHeader"}>

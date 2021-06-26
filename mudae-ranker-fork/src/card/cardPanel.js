@@ -28,13 +28,13 @@ function CardPanel({characterList, updateCharacterList}) {
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
     const [activeId, setActiveId] = useState(null);
     // const [items, setItems] = useState(Array.from(Object.keys(characterList)));
-    const [items, setItems] = useState(   [
-            "https://media.discordapp.net/attachments/472313197836107780/553762506217226250/SNVvtNb.png",
-            "https://imgur.com/Vk3jbUB.png",
-            "https://media.discordapp.net/attachments/472313197836107780/723706845981573180/7WfEVKD.png",
-            "https://imgur.com/JUeRmTD.png"
-        ]
-    );
+    // const [items, setItems] = useState(   characterList );
+        // {id: 1, pictureUrl: "https://media.discordapp.net/attachments/472313197836107780/553762506217226250/SNVvtNb.png"},
+        // {id: 2, pictureUrl: "https://imgur.com/Vk3jbUB.png"},
+        // {id: 3, pictureUrl: "https://media.discordapp.net/attachments/472313197836107780/723706845981573180/7WfEVKD.png"},
+        // {id: 4, pictureUrl: "https://imgur.com/JUeRmTD.png"}
+        // ]
+    // );
 
     const toggleAddCharacter = () => {
         toggleAddNew(!showAddNew);
@@ -93,10 +93,10 @@ function CardPanel({characterList, updateCharacterList}) {
                         onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
                         onDragCancel={handleDragCancel}>
-                <SortableContext items={items} strategy={rectSortingStrategy}>
+                <SortableContext items={characterList} strategy={rectSortingStrategy}>
                     <div className={"CardPanel"}>
-                        {items.map((characterKey, index) => (
-                            <Card key={characterKey} characterKey={characterKey} character={characterKey} index={index} />
+                        {characterList.map((character, index) => (
+                            <Card key={character.id} /*characterKey={characterKey}*/ character={character} index={index} />
                         ))}
                         {/*{items.map(*/}
                         {/*    (url, index) => <Card url={url} index={index}*/}
@@ -108,7 +108,7 @@ function CardPanel({characterList, updateCharacterList}) {
                 <DragOverlay adjustScale={true}>
                     {activeId ? (
                            void(0) && //index=items.indexOf(activeId.toString()
-                        <Photo character={items[activeId]} index={activeId} />
+                        <Photo character={characterList[activeId]} index={activeId} />
                         // <Card character={activeId} index={characterList.indexOf(activeId)} />
                     ) : null}
                 </DragOverlay>
@@ -123,16 +123,35 @@ function CardPanel({characterList, updateCharacterList}) {
     function handleDragEnd(event) {
         const {active, over} = event;
 
-        console.log("handleDragEnd: " + JSON.stringify(event));
+        // console.log("handleDragEnd: " + JSON.stringify(event));
 
         if (active.id !== over.id) {
-            setItems((items) => {
+            updateCharacterList((items) => {
                 const oldIndex = active.data.current.sortable.index;
                 const newIndex = over.data.current.sortable.index;
 
                 return arrayMove(items, oldIndex, newIndex);
             });
         }
+
+        // if (active.id !== over.id) {
+        //     const updatedList = (characterList) => {
+        //         const oldIndex = active.data.current.sortable.index;
+        //         const newIndex = over.data.current.sortable.index;
+        //
+        //         return arrayMove(characterList, oldIndex, newIndex);
+        //     };
+        //     console.log(updatedList)
+        //     updateCharacterList(updatedList);
+        // }
+
+        // if (active.id !== over.id) {
+        //     const oldIndex = active.data.current.sortable.index;
+        //     const newIndex = over.data.current.sortable.index;
+        //
+        //     const updatedCards = arrayMove(characterList, oldIndex, newIndex);
+        //     updateCharacterList(updatedCards)
+        // }
 
         setActiveId(null);
     }
