@@ -1,20 +1,30 @@
-import React from 'react';
+import React, {useState} from 'react';
 import './character.scss';
 import {FaRegTrashAlt} from 'react-icons/fa';
 import {GrClose} from 'react-icons/gr';
 
-function Character({character, index, handleClose, handleRemoval}) {
+function Character({character, index, handleClose, handleRemoval, toggleSkip}) {
     const {name, series, pictureUrl, skip} = character;
+    const [localSkip, setLocalSkip] = useState(skip);
 
     function closeDetails() {
-        handleClose()
+        handleClose();
     }
 
     function trashcanRemove() {
-        handleRemoval(index)
+        handleRemoval(index);
     }
 
-    // console.log(character);
+    function changeSkip() {
+        // Not working might help https://stackoverflow.com/questions/43476729/react-checkbox-does-not-update
+        console.log("initial localSkip: " + localSkip + " what is : " + !localSkip);
+        setLocalSkip(initialState => ({
+            localSkip: !initialState
+        }));
+        console.log("new localSkip: " + localSkip);
+        toggleSkip(localSkip, index);
+    }
+
     return (
         <div className={"CharacterCard"}>
             <div className={"CardHeader"}>
@@ -33,8 +43,8 @@ function Character({character, index, handleClose, handleRemoval}) {
                 <div className={"Skip"}>
                     <input
                         type={"checkbox"}
-                        checked={skip}
-                        readOnly={true}
+                        checked={localSkip}
+                        onChange={changeSkip}
                     />
                     <label>Skip</label>
                 </div>

@@ -124,7 +124,7 @@ function App() {
             "name": "Ishtar",
             "series": "Fate/Grand order",
             "pictureUrl": "https://imgur.com/DBigfuf.png",
-            "skip": false,
+            "skip": true,
             "position":15
         },         {
         "id":uuidv4(),

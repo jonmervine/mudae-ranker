@@ -2,10 +2,9 @@ import React from 'react';
 import './card.scss';
 import {useSortable} from '@dnd-kit/sortable';
 import {CSS} from '@dnd-kit/utilities';
-import {Photo} from './photo';
 
 function Card({character, index, openDetails}) {
-    const {key, name, pictureUrl, skip} = character;
+    const {name, pictureUrl, skip} = character;
     const sortable = useSortable({id: character.id});
     const {
         attributes,
@@ -22,28 +21,21 @@ function Card({character, index, openDetails}) {
     };
 
     function selectCharacter() {
-        openDetails(index)
+        //I can't seem to figure out how to make this on single click without interfering with the dragndrop
+        openDetails(index);
     }
 
-    return (
-        <Photo
-            ref={setNodeRef}
-            style={style}
-            character={character}
-            index={index}
-            {...attributes}
-            {...listeners}
-        />
-    );
-    /*
+    const inlineStyles = {
+        backgroundColor: skip?'lightcoral':'white',
+        ...style,
+    };
 
-    console.log(`has key of ${index} my character is ${name} with ${pictureUrl} and is skipped? ${skip}`)
     return (
-            <div className={"CharacterThumbnail"} ref={setNodeRef} style={style} {...attributes} {...listeners}>
-                <img className={"Picture"} alt={name} src={pictureUrl}/>
-            </div>
+        <div className={"CharacterThumbnail"} ref={setNodeRef} style={inlineStyles} {...attributes} {...listeners}
+             onDoubleClick={selectCharacter}>
+            <img className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>
+        </div>
     );
-    */
 }
 
 export default Card;

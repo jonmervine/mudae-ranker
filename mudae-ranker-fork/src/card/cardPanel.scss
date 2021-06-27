@@ -1,6 +1,7 @@
 .CardPanel {
   display: grid;
-  grid-template-columns: repeat(10, 1fr);
+  grid-template-columns: repeat(auto-fill, 180px);
+  grid-auto-rows: 280px;
   grid-gap: 10px;
   padding: 10px;
 }
