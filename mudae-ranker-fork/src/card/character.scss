@@ -43,20 +43,38 @@
     border-radius: 6px;
   }
 
-  .URL input {
-    margin-left: 0.5em;
-    width: 75%;
+  .URL {
+    display: flex;
+    margin-top: 0.5em;
+
+    input {
+      margin-left: 0.5em;
+    }
+
+    .SaveImage {
+      cursor: pointer;
+      margin-left: 0.5em;
+    }
   }
+
 
   .CardFooter {
     display: flex;
     justify-content: space-between;
     width: 100%;
 
-    .Skip input {
+    .Skip {
       cursor: pointer;
-      margin-left: 1em;
-      margin-right: 0.5em;
+
+      input {
+        margin-left: 1em;
+        margin-right: 0.5em;
+        cursor: pointer;
+      }
+
+      label {
+        cursor: pointer;
+      }
     }
 
     .Delete {

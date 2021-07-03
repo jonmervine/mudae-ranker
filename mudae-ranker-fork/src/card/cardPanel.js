@@ -25,7 +25,7 @@ function CardPanel({characterList, updateCharacterList}) {
     const [showCardDetails, toggleCardDetails] = useState(false);
     const [selectedCharacter, selectCharacter] = useState(-1);
     const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-    const [activeId, setActiveId] = useState(null);
+    // const [activeId, setActiveId] = useState(null);
 
     const toggleAddCharacter = () => {
         toggleAddNew(!showAddNew);
@@ -34,6 +34,7 @@ function CardPanel({characterList, updateCharacterList}) {
     //New characters don't drag properly when just added. But after first drag then they work fine
     const addNewCharacter = (character) => {
         const {name, series, pictureUrl} = character;
+
         let newCharacter = {
             id: uuidv4(),
             name: name,
@@ -62,37 +63,48 @@ function CardPanel({characterList, updateCharacterList}) {
     }
 
     function toggleSkip(skip, index) {
-        // Skip i think needs some kind of redraw maybe? These changes aren't sticking?
-        console.log("toggle skip to: " + skip + " is currently: " + characterList[index].skip);
         characterList[index].skip = skip;
         updateCharacterList(characterList);
+    }
+
+    function outsideClick(event, closeFunction) {
+        if (event.target.className === "popup-box") {
+            closeFunction()
+        }
+    }
+
+    function updateImage(imageUrl, index) {
+        characterList[index].pictureUrl = imageUrl;
+        updateCharacterList(characterList)
     }
 
     return (
         <div>
             <BsPlusSquareFill className={"AddNew"} onClick={toggleAddCharacter}/>
             {showAddNew &&
-             <div className={"popup-box"}>
+             <div className={"popup-box"} onClick={(event) => {outsideClick(event, toggleAddCharacter)}}>
                  <AddNew
                      handleClose={toggleAddCharacter}
                      newCard={addNewCharacter}
                  />
              </div>}
-            {showCardDetails && selectedCharacter > -1 && activeId == null && selectedCharacter < characterList.length &&
-            <div className={"popup-box"}>
+            {showCardDetails && //selectedCharacter > -1 && activeId == null && selectedCharacter < characterList.length &&
+            <div className={"popup-box"} onClick={(event) => {outsideClick(event, closeDetails)}}>
                 <Character
                     character={characterList[selectedCharacter]}
                     index={selectedCharacter}
                     handleClose={closeDetails}
                     handleRemoval={deleteCharacter}
                     toggleSkip={toggleSkip}
+                    updateUrl={updateImage}
                 />
             </div>}
             <DndContext sensors={sensors}
                         collisionDetection={closestCenter}
-                        onDragStart={handleDragStart}
+                        // onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
-                        onDragCancel={handleDragCancel}>
+                        // onDragCancel={handleDragCancel}
+                >
                 <SortableContext items={characterList} strategy={rectSortingStrategy}>
                     <div className={"CardPanel"}>
                         {characterList.map((character, index) => (
@@ -115,9 +127,9 @@ function CardPanel({characterList, updateCharacterList}) {
         </div>
     );
 
-    function handleDragStart(event) {
-        setActiveId(event.active.data.current.sortable.index);
-    }
+    // function handleDragStart(event) {
+    //     setActiveId(event.active.data.current.sortable.index);
+    // }
 
     function handleDragEnd(event) {
         const {active, over} = event;
@@ -130,12 +142,12 @@ function CardPanel({characterList, updateCharacterList}) {
                 return arrayMove(items, oldIndex, newIndex);
             });
         }
-        setActiveId(null);
+        // setActiveId(null);
     }
 
-    function handleDragCancel() {
-        setActiveId(null);
-    }
+    // function handleDragCancel() {
+    //     setActiveId(null);
+    // }
 }
 
 export default CardPanel;
