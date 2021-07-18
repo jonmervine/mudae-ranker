@@ -4,6 +4,7 @@ import './cardPanel.scss';
 import AddNew from './addNew';
 import Card from './card';
 import Character from './character';
+import SortPanel from '../sort/sortPanel'
 import {v4 as uuidv4} from 'uuid';
 import {
     DndContext,
@@ -20,7 +21,7 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
-function CardPanel({characterList, updateCharacterList}) {
+function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) {
     const [showAddNew, toggleAddNew] = useState(false);
     const [showCardDetails, toggleCardDetails] = useState(false);
     const [selectedCharacter, selectCharacter] = useState(-1);
@@ -40,7 +41,8 @@ function CardPanel({characterList, updateCharacterList}) {
             name: name,
             series: series,
             pictureUrl: pictureUrl,
-            skip: false
+            skip: false,
+            elo: 1600
         };
         characterList.push(newCharacter)
         updateCharacterList(characterList)
@@ -78,6 +80,10 @@ function CardPanel({characterList, updateCharacterList}) {
         updateCharacterList(characterList)
     }
 
+    function closeSort() {
+        toggleSort(false);
+    }
+
     return (
         <div>
             <BsPlusSquareFill className={"AddNew"} onClick={toggleAddCharacter}/>
@@ -88,6 +94,7 @@ function CardPanel({characterList, updateCharacterList}) {
                      newCard={addNewCharacter}
                  />
              </div>}
+
             {showCardDetails && //selectedCharacter > -1 && activeId == null && selectedCharacter < characterList.length &&
             <div className={"popup-box"} onClick={(event) => {outsideClick(event, closeDetails)}}>
                 <Character
@@ -99,6 +106,15 @@ function CardPanel({characterList, updateCharacterList}) {
                     updateUrl={updateImage}
                 />
             </div>}
+
+            {
+                isSorting &&
+                    <div className={"popup-box"} onClick={(event) =>{outsideClick(event, closeSort)}}>
+                        <SortPanel characterList={characterList} closeSort={closeSort}
+                        />
+                    </div>
+            }
+
             <DndContext sensors={sensors}
                         collisionDetection={closestCenter}
                         // onDragStart={handleDragStart}
@@ -135,10 +151,23 @@ function CardPanel({characterList, updateCharacterList}) {
         const {active, over} = event;
 
         if (active.id !== over.id) {
-            updateCharacterList((items) => {
-                const oldIndex = active.data.current.sortable.index;
-                const newIndex = over.data.current.sortable.index;
+            const oldIndex = active.data.current.sortable.index;
+            const newIndex = over.data.current.sortable.index;
 
+            let newElo = characterList[oldIndex].elo;
+            if (characterList.length > 1) {
+                if (newIndex === 0) {
+                    newElo = characterList[newIndex].elo + 1;
+                } else if (newIndex === characterList.length - 1) {
+                    newElo = characterList[newIndex].elo - 1;
+                } else {
+                    newElo = Math.round((characterList[newIndex - 1].elo + characterList[newIndex].elo) / 2);
+                }
+            }
+
+            characterList[oldIndex].elo = newElo;
+
+            updateCharacterList((items) => {
                 return arrayMove(items, oldIndex, newIndex);
             });
         }

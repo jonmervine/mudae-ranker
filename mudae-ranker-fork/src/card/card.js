@@ -21,12 +21,11 @@ function Card({character, index, openDetails}) {
     };
 
     function selectCharacter() {
-        //I can't seem to figure out how to make this on single click without interfering with the dragndrop
         openDetails(index);
     }
 
     const inlineStyles = {
-        backgroundColor: skip?'lightcoral':'white',
+        backgroundColor: skip?'crimson':'white',
         ...style,
     };
 

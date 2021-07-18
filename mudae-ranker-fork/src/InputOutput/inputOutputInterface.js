@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import './inputOutputInterface.scss';
 import { v4 as uuidv4 } from 'uuid';
 
-function InputOutputInterface({updateCharacterList}) {
+function InputOutputInterface({characterList, updateCharacterList, startSort}) {
     const [inputText, setInputText] = useState("");
     const [outputText, setOutputText] = useState("");
 
@@ -83,7 +83,8 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
                     name: characterName,
                     series: seriesName,
                     pictureUrl: characterImage,
-                    skip: false
+                    skip: false,
+                    elo: 1600
                 };
 
                 console.log("Adding Card: " + character);
@@ -95,6 +96,18 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
         updateCharacterList(seriesArray);
     }
 
+    function printOrder() {
+        let outputDisplay = ""
+        for (let character of characterList) {
+            outputDisplay = outputDisplay + character.name + " " + character.elo + "\n"
+        }
+        setOutputText(outputDisplay)
+    }
+
+    function startSorting() {
+        startSort(true)
+    }
+
     return (
         <div>
             <div className={"TextFields"}>
@@ -103,10 +116,10 @@ Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/5330
             </div>
             <div className={"ButtonRow"}>
                 <button onClick={parseInput}>Parse Input</button>
-                <button>Start Ranking</button>
+                <button onClick={startSorting}>Start Ranking</button>
                 <button>Resume Ranking</button>
                 <button>Export All Characters</button>
-                <button>Generate Sort Commands</button>
+                <button onClick={printOrder}>Generate Sort Commands</button>
                 <button onClick={cleanOutput}>Clean Output</button>
                 <button onClick={reset}>Reset</button>
             </div>

@@ -59,7 +59,7 @@ function Character({character, index, handleClose, handleRemoval, toggleSkip, up
                     <label>Skip</label>
                 </div>
                 <div className={"Delete"} title={"Delete Card"}>
-                    <FaRegTrashAlt color={"indianred"} size={"1.5em"} onClick={trashcanRemove}/>
+                    <FaRegTrashAlt color={"firebrick"} size={"1.5em"} onClick={trashcanRemove}/>
                 </div>
             </div>
         </div>
