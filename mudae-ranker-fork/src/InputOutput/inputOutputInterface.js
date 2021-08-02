@@ -21,18 +21,7 @@ function InputOutputInterface({characterList, updateCharacterList, startSort}) {
 
     function parseInput() {
         console.log("starting parsing of input text");
-        /*
-Little Witch Academia - 9/15
-Diana Cavendish | B-Tier - https://media.discordapp.net/attachments/472313197836107780/532766260090372137/LoQi4zF.png
-Atsuko Kagari | S-Tier - https://media.discordapp.net/attachments/472313197836107780/745543596748308490/Vk3jbUB.png
-Barbara Parker - https://media.discordapp.net/attachments/472313197836107780/700524717689536622/2olbZiA.png
-Amanda O'Neill - https://media.discordapp.net/attachments/472313197836107780/532790666158276611/Xo8tq8N.png
-Jasminka Antonenko - https://media.discordapp.net/attachments/472313197836107780/700214733500055622/WwCVE11.png
-Sucy Manbavaran - https://media.discordapp.net/attachments/472313197836107780/546495366510673930/IyMDYem.png
-Ursula Callistis - https://media.discordapp.net/attachments/472313197836107780/669771879955038219/xISG5x8.png
-Chariot du Nord - https://media.discordapp.net/attachments/472313197836107780/700143528558329886/6nAYV8v.png
-Lotte Jansson - https://media.discordapp.net/attachments/472313197836107780/533081842014748672/yqhc3xM.png
-         */
+
         let processingText = inputText;
         console.log("start processing text is: " + processingText);
 

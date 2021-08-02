@@ -27,7 +27,7 @@ function AddNew({handleClose, newCard}) {
     }
 
     return (
-        <div className={"box"}>
+        <div className={"addNewBox"}>
             <div className={"Header"}>
                 <div className={"Title"}>Create New Character Card</div>
                 <div className={"Close"} title={"Close"}>

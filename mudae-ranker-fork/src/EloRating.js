@@ -9,10 +9,10 @@ function EloRating(winner, loser) {
     let Pb = Probability(winner, loser);
     let Pa = Probability(loser, winner);
 
-    winner = winner + 20 * (1 - Pa);
-    loser = loser + 20 * (0 - Pb);
+    winner = Math.round(winner + 20 * (1 - Pa));
+    loser = Math.round(loser + 20 * (0 - Pb));
 
-    return (winner, loser)
+    return [winner, loser]
 }
 
 export default EloRating;

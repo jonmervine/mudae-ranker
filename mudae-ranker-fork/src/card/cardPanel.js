@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {BsPlusSquareFill} from 'react-icons/bs';
 import './cardPanel.scss';
 import AddNew from './addNew';
-import Card from './card';
+import SortableCard from './sortableCard';
 import Character from './character';
 import SortPanel from '../sort/sortPanel'
 import {v4 as uuidv4} from 'uuid';
@@ -21,12 +21,15 @@ import {
     rectSortingStrategy,
 } from '@dnd-kit/sortable';
 
+import {DraggableCard} from "./draggableCard";
+
 function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) {
     const [showAddNew, toggleAddNew] = useState(false);
     const [showCardDetails, toggleCardDetails] = useState(false);
     const [selectedCharacter, selectCharacter] = useState(-1);
-    const sensors = useSensors(useSensor(MouseSensor), useSensor(TouchSensor));
-    // const [activeId, setActiveId] = useState(null);
+    const sensors = useSensors(useSensor(MouseSensor, {activationConstraint: {distance: 5}}), useSensor(TouchSensor));
+    const [activeId, setActiveId] = useState(null);
+    const [idToChar, setIdToChar] = useState(new Map(characterList.map(ch => [ch.id, ch])));
 
     const toggleAddCharacter = () => {
         toggleAddNew(!showAddNew);
@@ -77,11 +80,18 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
 
     function updateImage(imageUrl, index) {
         characterList[index].pictureUrl = imageUrl;
-        updateCharacterList(characterList)
+        updateCharacterList(characterList);
     }
 
     function closeSort() {
         toggleSort(false);
+        reorderCharacters(characterList);
+    }
+
+    function reorderCharacters() {
+        console.log("before reorder: " + JSON.stringify(easierRead()));
+        updateCharacterList(characterList.sort((a, b) => b.elo - a.elo));
+        console.log("after reorder: " + JSON.stringify(easierRead()));
     }
 
     return (
@@ -110,47 +120,59 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
             {
                 isSorting &&
                     <div className={"popup-box"} onClick={(event) =>{outsideClick(event, closeSort)}}>
-                        <SortPanel characterList={characterList} closeSort={closeSort}
+                        <SortPanel characterList={characterList} closeSort={closeSort} updateCharacters={updateCharacterList}
                         />
                     </div>
             }
 
             <DndContext sensors={sensors}
                         collisionDetection={closestCenter}
-                        // onDragStart={handleDragStart}
+                        onDragStart={handleDragStart}
                         onDragEnd={handleDragEnd}
-                        // onDragCancel={handleDragCancel}
-                >
-                <SortableContext items={characterList} strategy={rectSortingStrategy}>
+                        onDragCancel={handleDragCancel}
+                        useDragOverlay={false}
+            >
+                <SortableContext useDragOverlay={false} items={characterList} strategy={rectSortingStrategy}>
                     <div className={"CardPanel"}>
                         {characterList.map((character, index) => (
-                            <Card key={character.id} character={character} index={index} openDetails={openDetails}/>
+                            <SortableCard useDragOverlay={false} key={character.id} character={character} index={index} openDetails={openDetails}/>
                         ))}
                     </div>
                 </SortableContext>
 
-            {/*  a <DragOverlay> component can be used to control animations about the overlay, this would fix
-            the overlapping vs underlapping of some components but it's been pretty finicky to work with
-            <DragOverlay adjustScale={true}>
+                {/*  a <DragOverlay> component can be used to control animations about the overlay, this would fix
+            the overlapping vs underlapping of some components but it's been pretty finicky to work with */ }
+            <DragOverlay dropAnimation={null} useDragOverlay={false} >
                 {activeId ? (
-                 <Photo url={activeId} index={items.indexOf(activeId)} />
+                 <DraggableCard useDragOverlay={false} id={activeId} name={idToChar.get(activeId).name} pictureUrl={idToChar.get(activeId).pictureUrl} skip={idToChar.get(activeId).skip}/>
                 ) : null}
             </DragOverlay>
-      */}
+
 
             </DndContext>
 
         </div>
     );
 
-    // function handleDragStart(event) {
-    //     setActiveId(event.active.data.current.sortable.index);
-    // }
+    function handleDragStart(event) {
+        const {active} = event;
+
+        setActiveId(active.id);
+    }
+
+    function easierRead() {
+        const stuff = [];
+        for (const character of characterList) {
+            stuff.push(character.name);
+        }
+        return stuff;
+    }
 
     function handleDragEnd(event) {
         const {active, over} = event;
 
         if (active.id !== over.id) {
+            console.log("before drag: " + JSON.stringify(easierRead()));
             const oldIndex = active.data.current.sortable.index;
             const newIndex = over.data.current.sortable.index;
 
@@ -170,13 +192,14 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
             updateCharacterList((items) => {
                 return arrayMove(items, oldIndex, newIndex);
             });
+
         }
-        // setActiveId(null);
+        setActiveId(null);
     }
 
-    // function handleDragCancel() {
-    //     setActiveId(null);
-    // }
+    function handleDragCancel() {
+        setActiveId(null);
+    }
 }
 
 export default CardPanel;

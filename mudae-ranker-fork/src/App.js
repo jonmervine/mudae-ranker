@@ -5,6 +5,7 @@ import InputOutputInterface from "./InputOutput/inputOutputInterface";
 import { v4 as uuidv4 } from 'uuid';
 
 function App() {
+    const [isSorting, toggleSort] = useState(false)
     const [characterList, setCharacterList] = useState([{
         "id":uuidv4(),
         "name": "Atsuko Kagari",
@@ -135,7 +136,7 @@ function App() {
             "elo": 1600
         }
 ]);
-    const [isSorting, toggleSort] = useState(false)
+
 
     function updateCharacterList(cards) {
         setCharacterList(cards);
