@@ -23,13 +23,12 @@ import {
 
 import {DraggableCard} from "./draggableCard";
 
-function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) {
+function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, idToChar}) {
     const [showAddNew, toggleAddNew] = useState(false);
     const [showCardDetails, toggleCardDetails] = useState(false);
     const [selectedCharacter, selectCharacter] = useState(-1);
     const sensors = useSensors(useSensor(MouseSensor, {activationConstraint: {distance: 5}}), useSensor(TouchSensor));
     const [activeId, setActiveId] = useState(null);
-    const [idToChar, setIdToChar] = useState(new Map(characterList.map(ch => [ch.id, ch])));
 
     const toggleAddCharacter = () => {
         toggleAddNew(!showAddNew);
@@ -47,24 +46,26 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
             skip: false,
             elo: 1600
         };
-        characterList.push(newCharacter)
-        updateCharacterList(characterList)
+
+        let copyCharacters = characterList.slice(0);
+        copyCharacters.push(newCharacter);
+        updateCharacterList(copyCharacters);
     }
 
     function openDetails(index) {
-        toggleCardDetails(true)
-        selectCharacter(index)
+        toggleCardDetails(true);
+        selectCharacter(index);
     }
 
     function closeDetails() {
-        toggleCardDetails(false)
-        selectCharacter(null)
+        toggleCardDetails(false);
+        selectCharacter(null);
     }
 
     function deleteCharacter(index) {
-        characterList.splice(index, 1)
-        updateCharacterList(characterList)
-        closeDetails()
+        characterList.splice(index, 1);
+        updateCharacterList(characterList);
+        closeDetails();
     }
 
     function toggleSkip(skip, index) {
@@ -74,7 +75,7 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
 
     function outsideClick(event, closeFunction) {
         if (event.target.className === "popup-box") {
-            closeFunction()
+            closeFunction();
         }
     }
 
@@ -144,7 +145,7 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
             the overlapping vs underlapping of some components but it's been pretty finicky to work with */ }
             <DragOverlay dropAnimation={null} useDragOverlay={false} >
                 {activeId ? (
-                 <DraggableCard useDragOverlay={false} id={activeId} name={idToChar.get(activeId).name} pictureUrl={idToChar.get(activeId).pictureUrl} skip={idToChar.get(activeId).skip}/>
+                 <DraggableCard useDragOverlay={false} id={activeId} name={idToChar[activeId].name} pictureUrl={idToChar[activeId].pictureUrl} skip={idToChar[activeId].skip}/>
                 ) : null}
             </DragOverlay>
 
@@ -189,10 +190,8 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting}) 
 
             characterList[oldIndex].elo = newElo;
 
-            updateCharacterList((items) => {
-                return arrayMove(items, oldIndex, newIndex);
-            });
-
+            let reorderedChars = arrayMove(characterList, oldIndex, newIndex);
+            updateCharacterList(reorderedChars);
         }
         setActiveId(null);
     }

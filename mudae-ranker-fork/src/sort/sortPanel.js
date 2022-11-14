@@ -50,13 +50,13 @@ function SortPanel({characterList, closeSort, updateCharacters}) {
             <div className={"decisionPanel"}>
                 <div className={"choicePanel"}>
                     <div className={"sortCharacterThumbnail"} onClick={(event) =>{sortChoice(left, right)}}>
-                        <img className={"sortPicture"} alt={characterList[left].name} src={characterList[left].pictureUrl}/>
+                        <img referrerPolicy="no-referrer" className={"sortPicture"} alt={characterList[left].name} src={characterList[left].pictureUrl}/>
                     </div>
                     <button className={"sortSkip"} onClick={refreshChoice}>Skip</button>
                 </div>
                 <div className={"choicePanel"}>
                     <div className={"sortCharacterThumbnail"} onClick={(event) =>{sortChoice(right, left)}}>
-                        <img className={"sortPicture"} alt={characterList[right].name}
+                        <img referrerPolicy="no-referrer" className={"sortPicture"} alt={characterList[right].name}
                              src={characterList[right].pictureUrl}/>
                     </div>
                     <button className={"sortSkip"} onClick={refreshChoice}>Skip</button>

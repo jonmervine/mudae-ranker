@@ -136,16 +136,28 @@ function App() {
             "elo": 1600
         }
 ]);
+    const [idToChar, setIdToChar] = useState(() => convertCardsToMap(characterList));
+
+    function convertCardsToMap(cards) {
+        return cards.reduce((a, v) => {
+                const id = v.id;
+                a[id] = a[id] || {};
+                a[id] = v;
+                return a;
+            },
+            {});
+    }
 
 
     function updateCharacterList(cards) {
         setCharacterList(cards);
+        setIdToChar(() => convertCardsToMap(cards));
     }
 
     return (
         <div className={"App"}>
             <InputOutputInterface characterList={characterList} updateCharacterList={updateCharacterList} startSort={toggleSort}/>
-            <CardPanel characterList={characterList} updateCharacterList={updateCharacterList} toggleSort={toggleSort} isSorting={isSorting}/>
+            <CardPanel characterList={characterList} updateCharacterList={updateCharacterList} toggleSort={toggleSort} isSorting={isSorting} idToChar={idToChar}/>
         </div>
     );
 }

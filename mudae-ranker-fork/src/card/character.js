@@ -41,7 +41,7 @@ function Character({character, index, handleClose, handleRemoval, toggleSkip, up
                 </div>
             </div>
             <div className={"Series"}>{series}</div>
-            <img className={"Picture"} alt={""} src={displayImage}/>
+            <img referrerPolicy="no-referrer" className={"Picture"} alt={""} src={displayImage}/>
             <div className={"URL"}>
                 <label>URL:</label>
                 <input type={"text"} value={imageUrl} onChange={event=>setImageUrl(event.target.value)} />

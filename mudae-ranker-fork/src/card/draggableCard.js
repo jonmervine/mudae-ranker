@@ -16,7 +16,7 @@ export const DraggableCard = forwardRef(({id, name, pictureUrl, skip, ...props},
 
     return (
         <div className={"CharacterThumbnail"} {...newProps} ref={ref} style={inlineStyles} >
-            <img className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>
+            <img referrerPolicy="no-referrer" className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>
         </div>
     )
 });

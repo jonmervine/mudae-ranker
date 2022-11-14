@@ -100,7 +100,7 @@ function InputOutputInterface({characterList, updateCharacterList, startSort}) {
     return (
         <div>
             <div className={"TextFields"}>
-                <textarea value={inputText} onChange={event => setInputText(event.target.value)}/>
+                <textarea value={inputText} placeholder="Paste mudae command result `$mmai-s`" onChange={event => setInputText(event.target.value)}/>
                 <textarea value={outputText} readOnly={true}/>
             </div>
             <div className={"ButtonRow"}>

@@ -37,7 +37,7 @@ function SortableCard({character, index, openDetails}) {
                        onClick={selectCharacter} name={name} pictureUrl={pictureUrl} skip={skip}/>
         // <div className={"CharacterThumbnail"} ref={setNodeRef} style={inlineStyles} {...attributes} {...listeners}
         //      onDoubleClick={selectCharacter}>
-        //     <img className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>
+        //     <img referrerPolicy="no-referrer" className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>
         // </div>
     );
 }
