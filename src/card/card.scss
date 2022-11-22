@@ -1,0 +1,35 @@
+@use 'src/variables';
+
+.CharacterThumbnail.CharacterThumbnailDynamicS1 {
+  height: variables.$cardHeightS1;
+  width: variables.$cardWidthS1;
+}
+.CharacterThumbnail.CharacterThumbnailDynamicS2 {
+  height: variables.$cardHeightS2;
+  width: variables.$cardWidthS2;
+}
+.CharacterThumbnail.CharacterThumbnailDynamicS3 {
+  height: variables.$cardHeightS3;
+  width: variables.$cardWidthS3;
+}
+.CharacterThumbnail.CharacterThumbnailDynamicS4 {
+  height: variables.$cardHeightS4;
+  width: variables.$cardWidthS4;
+}
+.CharacterThumbnail.CharacterThumbnailDynamicS5 {
+  height: variables.$cardHeightS5;
+  width: variables.$cardWidthS5;
+}
+
+.CharacterThumbnail {
+  border-radius: 6px;
+  border: 1px solid rgb(20, 20, 20);
+  box-shadow: 2px 2px 3px rgb(90, 90, 90);
+  box-sizing: border-box;
+  padding: 7px;
+
+  .Picture {
+    width: 100%;
+    height: 100%
+  }
+}
