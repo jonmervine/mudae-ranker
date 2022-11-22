@@ -5,7 +5,7 @@ import {CSS} from '@dnd-kit/utilities';
 
 import {DraggableCard} from "./draggableCard";
 
-function SortableCard({character, index, openDetails}) {
+function SortableCard({character, index, openDetails, dynamicCardSize}) {
     const {name, pictureUrl, skip} = character;
     const sortable = useSortable({id: character.id});
     const {
@@ -32,9 +32,9 @@ function SortableCard({character, index, openDetails}) {
     };
 
     return (
-        <DraggableCard useDragOverlay={false} className={"CharacterThumbnail"} ref={setNodeRef}
+        <DraggableCard useDragOverlay={false} className={"CharacterThumbnail" + dynamicCardSize + " CharacterThumbnail"} ref={setNodeRef}
                        style={inlineStyles} {...attributes} {...listeners}
-                       onClick={selectCharacter} name={name} pictureUrl={pictureUrl} skip={skip}/>
+                       onClick={selectCharacter} name={name} pictureUrl={pictureUrl} skip={skip} dynamicCardSize={dynamicCardSize}/>
         // <div className={"CharacterThumbnail"} ref={setNodeRef} style={inlineStyles} {...attributes} {...listeners}
         //      onDoubleClick={selectCharacter}>
         //     <img referrerPolicy="no-referrer" className={"Picture"} alt={name} src={pictureUrl} draggable={false}/>

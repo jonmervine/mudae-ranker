@@ -22,13 +22,17 @@ import {
 } from '@dnd-kit/sortable';
 
 import {DraggableCard} from "./draggableCard";
+import Slider from "@mui/material/Slider";
 
 function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, idToChar}) {
+    const dynamicSizes = ["DynamicS1", "DynamicS2", "DynamicS3", "DynamicS4", "DynamicS5"]
+
     const [showAddNew, toggleAddNew] = useState(false);
     const [showCardDetails, toggleCardDetails] = useState(false);
     const [selectedCharacter, selectCharacter] = useState(-1);
     const sensors = useSensors(useSensor(MouseSensor, {activationConstraint: {distance: 5}}), useSensor(TouchSensor));
     const [activeId, setActiveId] = useState(null);
+    const [dynamicCardSize, setDynamicCardSize] = useState(dynamicSizes[3])
 
     const toggleAddCharacter = () => {
         toggleAddNew(!showAddNew);
@@ -95,6 +99,13 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, i
         console.log("after reorder: " + JSON.stringify(easierRead()));
     }
 
+    function changeCardSize(_, newSliderValue) {
+        const newDynamicClass =  dynamicSizes[newSliderValue-1]
+        if (dynamicCardSize !== newDynamicClass) {
+            setDynamicCardSize(newDynamicClass)
+        }
+    }
+
     return (
         <div>
             <BsPlusSquareFill className={"AddNew"} onClick={toggleAddCharacter}/>
@@ -105,6 +116,16 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, i
                      newCard={addNewCharacter}
                  />
              </div>}
+
+            <Slider className={"CardSizeSlider"}
+                    sx={{
+                        width: '20%',
+                        display: 'inline-block',
+                        height: '100%',
+                        padding: '10px 0',
+                        margin: '2% 10px'
+                    }}
+                    defaultValue={4} step={1} marks min={1} max={5} onChange={changeCardSize}/>
 
             {showCardDetails && //selectedCharacter > -1 && activeId == null && selectedCharacter < characterList.length &&
             <div className={"popup-box"} onClick={(event) => {outsideClick(event, closeDetails)}}>
@@ -134,9 +155,9 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, i
                         useDragOverlay={false}
             >
                 <SortableContext useDragOverlay={false} items={characterList} strategy={rectSortingStrategy}>
-                    <div className={"CardPanel"}>
+                    <div className={"CardPanel" + dynamicCardSize + " CardPanel"}>
                         {characterList.map((character, index) => (
-                            <SortableCard useDragOverlay={false} key={character.id} character={character} index={index} openDetails={openDetails}/>
+                            <SortableCard useDragOverlay={false} key={character.id} character={character} index={index} openDetails={openDetails} dynamicCardSize={dynamicCardSize}/>
                         ))}
                     </div>
                 </SortableContext>
@@ -145,7 +166,7 @@ function CardPanel({characterList, updateCharacterList, toggleSort, isSorting, i
             the overlapping vs underlapping of some components but it's been pretty finicky to work with */ }
             <DragOverlay dropAnimation={null} useDragOverlay={false} >
                 {activeId ? (
-                 <DraggableCard useDragOverlay={false} id={activeId} name={idToChar[activeId].name} pictureUrl={idToChar[activeId].pictureUrl} skip={idToChar[activeId].skip}/>
+                 <DraggableCard useDragOverlay={false} id={activeId} name={idToChar[activeId].name} pictureUrl={idToChar[activeId].pictureUrl} skip={idToChar[activeId].skip} dynamicCardSize={dynamicCardSize}/>
                 ) : null}
             </DragOverlay>
 

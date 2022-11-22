@@ -1,13 +1,4 @@
-.CardPanel {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, 180px);
-  grid-auto-rows: 280px;
-  grid-gap: 10px;
-  padding: 10px;
-  user-select: none;
-  -webkit-user-select: none; /*Safari*/
-  -moz-user-select: none; /*Firefox*/
-}
+@use 'src/variables';
 
 .AddNew {
   width: 5%;
@@ -26,4 +17,36 @@
   height: 100vh;
   top: 0;
   left: 0;
+}
+
+.CardPanel.CardPanelDynamicS1 {
+  grid-template-columns: repeat(auto-fill, variables.$cardWidthS1);
+  grid-auto-rows: variables.$cardHeightS1;
+}
+.CardPanel.CardPanelDynamicS2 {
+  grid-template-columns: repeat(auto-fill, variables.$cardWidthS2);
+  grid-auto-rows: variables.$cardHeightS2;
+}
+.CardPanel.CardPanelDynamicS3 {
+  grid-template-columns: repeat(auto-fill, variables.$cardWidthS3);
+  grid-auto-rows: variables.$cardHeightS3;
+}
+.CardPanel.CardPanelDynamicS4 {
+  grid-template-columns: repeat(auto-fill, variables.$cardWidthS4);
+  grid-auto-rows: variables.$cardHeightS4;
+}
+.CardPanel.CardPanelDynamicS5 {
+  grid-template-columns: repeat(auto-fill, variables.$cardWidthS5);
+  grid-auto-rows: variables.$cardHeightS5;
+}
+
+.CardPanel {
+  display: grid;
+  //grid-template-columns: repeat(auto-fill, variables.$cardWidthS1);
+  //grid-auto-rows: variables.$cardHeightS1;
+  grid-gap: 10px;
+  padding: 10px;
+  user-select: none;
+  -webkit-user-select: none; /*Safari*/
+  -moz-user-select: none; /*Firefox*/
 }

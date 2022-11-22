@@ -3,7 +3,6 @@ import './addNew.scss';
 import {BsFillXSquareFill, BsPlusSquareFill} from 'react-icons/bs'
 import {GrClose} from "react-icons/gr";
 
-
 function AddNew({handleClose, newCard}) {
     const [name, setName] = useState("");
     const [series, setSeries] = useState("");
