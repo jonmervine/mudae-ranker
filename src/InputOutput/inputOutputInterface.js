@@ -88,7 +88,7 @@ function InputOutputInterface({characterList, updateCharacterList, startSort}) {
     function printOrder() {
         let outputDisplay = ""
         for (let character of characterList) {
-            outputDisplay = outputDisplay + character.name + " " + character.elo + "\n"
+            outputDisplay = outputDisplay + character.name + "$"// + character.elo + "\n"
         }
         setOutputText(outputDisplay)
     }

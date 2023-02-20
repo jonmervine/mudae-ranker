@@ -148,7 +148,6 @@ function App() {
             {});
     }
 
-
     function updateCharacterList(cards) {
         setCharacterList(cards);
         setIdToChar(() => convertCardsToMap(cards));
