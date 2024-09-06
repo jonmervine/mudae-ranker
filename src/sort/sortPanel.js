@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import './sortPanel.scss';
 import {GrClose} from 'react-icons/gr';
 import EloRating from "../EloRating";
+import {create} from "@mui/material/styles/createTransitions";
 
 function SortPanel({characterList, closeSort, updateCharacters}) {
 
@@ -28,10 +29,55 @@ function SortPanel({characterList, closeSort, updateCharacters}) {
 export default SortPanel
 
 export function ChoicePanels({characterList, updateCharacters}) {
-    const [choices, setChoices] = useState(5);
+    const [nbrChoices, setNbrChoices] = useState(5);
 
+    // The pool to pull from
+    const [randomPool, setRandomPool] = useState(createRandomPool());
+
+    // Choices as they are made
     const [choiceOrder, setChoiceOrder] = useState([]);
+
+    // The character panels to choose from
     const [panelChars, setPanelChars] = useState(refreshChoice());
+
+
+    function createRandomPool() {
+        console.log("populate pool");
+        let tempNumberList = [];
+        for (let i = 0; i < characterList.length; i++) {
+            tempNumberList.push(i);
+        }
+        let resultArray = shuffleArray(tempNumberList);
+        console.log("resultPool: " + resultArray);
+        return resultArray
+    }
+
+    function shuffleArray(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]];
+        }
+        return array;
+    }
+
+    function refreshChoice() {
+        console.log("Refresh Choice");
+        let tempPool = randomPool;
+        let tempPanelChars = [];
+        let amountNeeded = nbrChoices;
+
+        if (tempPool.length < amountNeeded) {
+            console.log("need to refresh pool: " + tempPool.length + " left");
+            let generatedPool = createRandomPool();
+            tempPanelChars.push(...generatedPool.splice(0, amountNeeded));
+            setRandomPool(generatedPool);
+        } else {
+            tempPanelChars.push(...tempPool.splice(0, amountNeeded));
+        }
+
+        console.log("refreshed to Panel of: " + tempPanelChars + " length " + tempPanelChars.length);
+        return tempPanelChars;
+    }
 
     function randomNumber() {
         return Math.floor(Math.random() * characterList.length);
@@ -46,12 +92,12 @@ export function ChoicePanels({characterList, updateCharacters}) {
 
         console.log("after: panelChars: " + panelChars + " && choiceOrder: " + choiceOrder);
 
-        if (choiceOrder.length >= choices - 1) {
+        if (choiceOrder.length >= nbrChoices - 1) {
             console.log("THIS ISNT TRIGGERING");
 
 
             let missing = [];
-            for (let i = 0; i < choices; i++) {
+            for (let i = 0; i < nbrChoices; i++) {
                 if (choiceOrder.indexOf(i) === -1) {
                     missing.push(i);
                 }
@@ -62,7 +108,7 @@ export function ChoicePanels({characterList, updateCharacters}) {
             herp.push(missing[0]);
             setChoiceOrder(herp);
 
-            for (let i = 0; i < choices - 1; i++) {
+            for (let i = 0; i < nbrChoices - 1; i++) {
                 const winnersIndex = panelChars[choiceOrder[i]];
                 const losersIndex = panelChars[choiceOrder[i+1]];
                 console.log(winnersIndex + " > " + losersIndex);
@@ -85,27 +131,24 @@ export function ChoicePanels({characterList, updateCharacters}) {
         }
     }
 
-    function refreshChoice() {
-        const newNumbers = new Set();
-        do {
-            newNumbers.add(randomNumber());
-        } while(newNumbers.size < choices)
+    console.log("RandomPool: " + randomPool);
+    console.log("ChoiceOrder: " + choiceOrder);
+    console.log("PanelChars: " + panelChars);
 
-        return Array.from(newNumbers);
-    }
-    // TODO The randomness is fine but  needs to be a bit more evenly distributed. So that after so many rounds everyone has roughly the same number of appearances
     let choicePanels = [];
-    for (let i = 0; i < choices; i++) {
-
+    for (let i = 0; i < nbrChoices; i++) {
+        console.log("i: " + i);
+        console.log("panelChar[i]: " + panelChars[i]);
+        console.log("characterList[PanelCahrs[i]]: " + characterList[panelChars[i]]);
         choicePanels.push(
 
             // TODO The choiceOrder.includes isn't updating/refreshing, probably because in an array and the array needs to re/return
             <div key={characterList[panelChars[i]].id} className={"choicePanel"}>
                 {console.log(choiceOrder + " " + i)}
                 { choiceOrder.includes(i) && <div id={"chosenPanelTransparency"} /> }
-                    <div className={"sortCharacterThumbnail"} onClick={(event) =>{makeChoice(i)}}>
-                        <img referrerPolicy="no-referrer" className={"sortPicture"} alt={characterList[panelChars[i]].name} src={characterList[panelChars[i]].pictureUrl}/>
-                    </div>
+                <div className={"sortCharacterThumbnail"} onClick={(event) =>{makeChoice(i)}}>
+                    <img referrerPolicy="no-referrer" className={"sortPicture"} alt={characterList[panelChars[i]].name} src={characterList[panelChars[i]].pictureUrl}/>
+                </div>
                 <button className={"sortSkip"} onClick={refreshChoice}>Skip</button>
             </div>
         );
